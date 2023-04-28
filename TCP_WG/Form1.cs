@@ -16,9 +16,14 @@ namespace TCP_WG
 {
     public partial class Form1 : Form
     {
-
+        /// <summary>
+        /// 远程开门(0x40)
+        /// </summary>
         const string openCmd = "19 40 00 00 {0} {1} {2} {3} {4} 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
-
+        /// <summary>
+        /// 1.17设置门控制参数(0x80)
+        /// </summary>
+        const string ctrlCmd = "17 80 00 00 {0} {1} {2} {3} {4} {5} {6} 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
         public Form1()
         {
             InitializeComponent();
@@ -121,22 +126,7 @@ namespace TCP_WG
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            if(appSession != null)
-            {
-                var bytes = StrToHexByte(this.txtCmd.Text);
-                if (appSession.TrySend(bytes,0, bytes.Length))
-                {
-                    DebugHelper.DebugLog("发送成功："+ this.txtCmd.Text);
-                }
-                else
-                {
-                    DebugHelper.DebugLog("发送失败");
-                }
-            }
-            else
-            {
-                MessageBox.Show("客户端未连接无法发送","提示");
-            }
+            Send();
         }
 
         public static byte[] StrToHexByte(string hexString)
@@ -167,10 +157,39 @@ namespace TCP_WG
             {
                 var cmd = string.Format(openCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2,'0'));
                 this.txtCmd.Text = cmd;
+                TrySend();
             }
             else
             {
                 MessageBox.Show("SN数据长度错误","错误");
+            }
+        }
+
+        public void TrySend()
+        {
+            if (this.checkBox1.Checked)
+            {
+                Send();
+            }
+        }
+
+        public void Send()
+        {
+            if (appSession != null)
+            {
+                var bytes = StrToHexByte(this.txtCmd.Text);
+                if (appSession.TrySend(bytes, 0, bytes.Length))
+                {
+                    DebugHelper.DebugLog("发送成功：" + this.txtCmd.Text);
+                }
+                else
+                {
+                    DebugHelper.DebugLog("发送失败");
+                }
+            }
+            else
+            {
+                MessageBox.Show("客户端未连接无法发送", "提示");
             }
         }
 
@@ -188,6 +207,51 @@ namespace TCP_WG
                 list.Add(sn16.Substring(i,2));
             }
             return list;
+        }
+
+        private void btnOnline_Click(object sender, EventArgs e)
+        {
+            var snStr = getSNStr(this.textSN.Text);
+            if (snStr.Count == 4)
+            {
+                var cmd = string.Format(ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "03", "03");
+                this.txtCmd.Text = cmd;
+                TrySend();
+            }
+            else
+            {
+                MessageBox.Show("SN数据长度错误", "错误");
+            }
+        }
+
+        private void btnOn_Click(object sender, EventArgs e)
+        {
+            var snStr = getSNStr(this.textSN.Text);
+            if (snStr.Count == 4)
+            {
+                var cmd = string.Format(ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "01", "03");
+                this.txtCmd.Text = cmd;
+                TrySend();
+            }
+            else
+            {
+                MessageBox.Show("SN数据长度错误", "错误");
+            }
+        }
+
+        private void btnOff_Click(object sender, EventArgs e)
+        {
+            var snStr = getSNStr(this.textSN.Text);
+            if (snStr.Count == 4)
+            {
+                var cmd = string.Format(ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "02", "03");
+                this.txtCmd.Text = cmd;
+                TrySend();
+            }
+            else
+            {
+                MessageBox.Show("SN数据长度错误", "错误");
+            }
         }
     }
 }

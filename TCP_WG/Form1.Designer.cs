@@ -38,10 +38,14 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textSN = new System.Windows.Forms.TextBox();
-            this.btnGen = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.textDoor = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnGen = new System.Windows.Forms.Button();
+            this.textSN = new System.Windows.Forms.TextBox();
+            this.btnOn = new System.Windows.Forms.Button();
+            this.btnOff = new System.Windows.Forms.Button();
+            this.btnOnline = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,7 +96,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(429, 128);
+            this.button2.Location = new System.Drawing.Point(429, 133);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 8;
@@ -130,6 +134,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnOnline);
+            this.groupBox1.Controls.Add(this.btnOff);
+            this.groupBox1.Controls.Add(this.btnOn);
             this.groupBox1.Controls.Add(this.textDoor);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.btnGen);
@@ -142,13 +149,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "指令生成";
             // 
-            // textSN
+            // textDoor
             // 
-            this.textSN.Location = new System.Drawing.Point(42, 20);
-            this.textSN.Name = "textSN";
-            this.textSN.Size = new System.Drawing.Size(71, 21);
-            this.textSN.TabIndex = 12;
-            this.textSN.Text = "222466751";
+            this.textDoor.Location = new System.Drawing.Point(154, 21);
+            this.textDoor.Name = "textDoor";
+            this.textDoor.Size = new System.Drawing.Size(30, 21);
+            this.textDoor.TabIndex = 15;
+            this.textDoor.Text = "1";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(119, 26);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "门号";
             // 
             // btnGen
             // 
@@ -160,28 +176,68 @@
             this.btnGen.UseVisualStyleBackColor = true;
             this.btnGen.Click += new System.EventHandler(this.btnGen_Click);
             // 
-            // label3
+            // textSN
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(119, 26);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "门号";
+            this.textSN.Location = new System.Drawing.Point(42, 20);
+            this.textSN.Name = "textSN";
+            this.textSN.Size = new System.Drawing.Size(71, 21);
+            this.textSN.TabIndex = 12;
+            this.textSN.Text = "222466751";
             // 
-            // textDoor
+            // btnOn
             // 
-            this.textDoor.Location = new System.Drawing.Point(154, 21);
-            this.textDoor.Name = "textDoor";
-            this.textDoor.Size = new System.Drawing.Size(30, 21);
-            this.textDoor.TabIndex = 15;
-            this.textDoor.Text = "1";
+            this.btnOn.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.btnOn.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnOn.Location = new System.Drawing.Point(344, 20);
+            this.btnOn.Name = "btnOn";
+            this.btnOn.Size = new System.Drawing.Size(64, 26);
+            this.btnOn.TabIndex = 16;
+            this.btnOn.Text = "常开";
+            this.btnOn.UseVisualStyleBackColor = false;
+            this.btnOn.Click += new System.EventHandler(this.btnOn_Click);
+            // 
+            // btnOff
+            // 
+            this.btnOff.BackColor = System.Drawing.Color.PaleVioletRed;
+            this.btnOff.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnOff.Location = new System.Drawing.Point(414, 20);
+            this.btnOff.Name = "btnOff";
+            this.btnOff.Size = new System.Drawing.Size(64, 25);
+            this.btnOff.TabIndex = 17;
+            this.btnOff.Text = "常关";
+            this.btnOff.UseVisualStyleBackColor = false;
+            this.btnOff.Click += new System.EventHandler(this.btnOff_Click);
+            // 
+            // btnOnline
+            // 
+            this.btnOnline.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnOnline.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnOnline.Location = new System.Drawing.Point(274, 19);
+            this.btnOnline.Name = "btnOnline";
+            this.btnOnline.Size = new System.Drawing.Size(64, 28);
+            this.btnOnline.TabIndex = 18;
+            this.btnOnline.Text = "在线";
+            this.btnOnline.UseVisualStyleBackColor = false;
+            this.btnOnline.Click += new System.EventHandler(this.btnOnline_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(432, 111);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(72, 16);
+            this.checkBox1.TabIndex = 13;
+            this.checkBox1.Text = "自动发送";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(531, 466);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label1);
@@ -191,6 +247,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.port);
             this.Controls.Add(this.textPort);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "微耕TCP通信调试工具 V0.01(只能连接一台设备)";
             this.groupBox1.ResumeLayout(false);
@@ -215,6 +273,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnGen;
         private System.Windows.Forms.TextBox textSN;
+        private System.Windows.Forms.Button btnOnline;
+        private System.Windows.Forms.Button btnOff;
+        private System.Windows.Forms.Button btnOn;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
