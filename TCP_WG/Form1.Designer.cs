@@ -38,14 +38,15 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnOnline = new System.Windows.Forms.Button();
+            this.btnOff = new System.Windows.Forms.Button();
+            this.btnOn = new System.Windows.Forms.Button();
             this.textDoor = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnGen = new System.Windows.Forms.Button();
             this.textSN = new System.Windows.Forms.TextBox();
-            this.btnOn = new System.Windows.Forms.Button();
-            this.btnOff = new System.Windows.Forms.Button();
-            this.btnOnline = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.btnMore = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -134,6 +135,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnMore);
             this.groupBox1.Controls.Add(this.btnOnline);
             this.groupBox1.Controls.Add(this.btnOff);
             this.groupBox1.Controls.Add(this.btnOn);
@@ -148,6 +150,42 @@
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "指令生成";
+            // 
+            // btnOnline
+            // 
+            this.btnOnline.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnOnline.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnOnline.Location = new System.Drawing.Point(265, 19);
+            this.btnOnline.Name = "btnOnline";
+            this.btnOnline.Size = new System.Drawing.Size(64, 28);
+            this.btnOnline.TabIndex = 18;
+            this.btnOnline.Text = "在线";
+            this.btnOnline.UseVisualStyleBackColor = false;
+            this.btnOnline.Click += new System.EventHandler(this.btnOnline_Click);
+            // 
+            // btnOff
+            // 
+            this.btnOff.BackColor = System.Drawing.Color.PaleVioletRed;
+            this.btnOff.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnOff.Location = new System.Drawing.Point(404, 20);
+            this.btnOff.Name = "btnOff";
+            this.btnOff.Size = new System.Drawing.Size(64, 25);
+            this.btnOff.TabIndex = 17;
+            this.btnOff.Text = "常关";
+            this.btnOff.UseVisualStyleBackColor = false;
+            this.btnOff.Click += new System.EventHandler(this.btnOff_Click);
+            // 
+            // btnOn
+            // 
+            this.btnOn.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.btnOn.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnOn.Location = new System.Drawing.Point(333, 20);
+            this.btnOn.Name = "btnOn";
+            this.btnOn.Size = new System.Drawing.Size(64, 26);
+            this.btnOn.TabIndex = 16;
+            this.btnOn.Text = "常开";
+            this.btnOn.UseVisualStyleBackColor = false;
+            this.btnOn.Click += new System.EventHandler(this.btnOn_Click);
             // 
             // textDoor
             // 
@@ -168,7 +206,7 @@
             // 
             // btnGen
             // 
-            this.btnGen.Location = new System.Drawing.Point(202, 21);
+            this.btnGen.Location = new System.Drawing.Point(193, 21);
             this.btnGen.Name = "btnGen";
             this.btnGen.Size = new System.Drawing.Size(64, 23);
             this.btnGen.TabIndex = 13;
@@ -184,42 +222,6 @@
             this.textSN.TabIndex = 12;
             this.textSN.Text = "222466751";
             // 
-            // btnOn
-            // 
-            this.btnOn.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.btnOn.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnOn.Location = new System.Drawing.Point(344, 20);
-            this.btnOn.Name = "btnOn";
-            this.btnOn.Size = new System.Drawing.Size(64, 26);
-            this.btnOn.TabIndex = 16;
-            this.btnOn.Text = "常开";
-            this.btnOn.UseVisualStyleBackColor = false;
-            this.btnOn.Click += new System.EventHandler(this.btnOn_Click);
-            // 
-            // btnOff
-            // 
-            this.btnOff.BackColor = System.Drawing.Color.PaleVioletRed;
-            this.btnOff.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnOff.Location = new System.Drawing.Point(414, 20);
-            this.btnOff.Name = "btnOff";
-            this.btnOff.Size = new System.Drawing.Size(64, 25);
-            this.btnOff.TabIndex = 17;
-            this.btnOff.Text = "常关";
-            this.btnOff.UseVisualStyleBackColor = false;
-            this.btnOff.Click += new System.EventHandler(this.btnOff_Click);
-            // 
-            // btnOnline
-            // 
-            this.btnOnline.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnOnline.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnOnline.Location = new System.Drawing.Point(274, 19);
-            this.btnOnline.Name = "btnOnline";
-            this.btnOnline.Size = new System.Drawing.Size(64, 28);
-            this.btnOnline.TabIndex = 18;
-            this.btnOnline.Text = "在线";
-            this.btnOnline.UseVisualStyleBackColor = false;
-            this.btnOnline.Click += new System.EventHandler(this.btnOnline_Click);
-            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -231,6 +233,16 @@
             this.checkBox1.TabIndex = 13;
             this.checkBox1.Text = "自动发送";
             this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // btnMore
+            // 
+            this.btnMore.Location = new System.Drawing.Point(476, 21);
+            this.btnMore.Name = "btnMore";
+            this.btnMore.Size = new System.Drawing.Size(25, 23);
+            this.btnMore.TabIndex = 19;
+            this.btnMore.Text = "...";
+            this.btnMore.UseVisualStyleBackColor = true;
+            this.btnMore.Click += new System.EventHandler(this.btnMore_Click);
             // 
             // Form1
             // 
@@ -277,6 +289,7 @@
         private System.Windows.Forms.Button btnOff;
         private System.Windows.Forms.Button btnOn;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button btnMore;
     }
 }
 

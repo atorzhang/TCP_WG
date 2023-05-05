@@ -93,8 +93,11 @@ namespace TCP_WG
         static void appServer_NewRequestReceived(BinarySession session, BinaryRequestInfo requestInfo)
         {
             StringBuilder sb = new StringBuilder();
-            Array.ForEach(requestInfo.Body, b => sb.Append($"{b} "));
-            DebugHelper.DebugLog($"接收到客户端 {session.Config.Ip}:{session.Config.Port} 的数据：\r\n{sb.ToString()}\r\n");
+            Array.ForEach(requestInfo.Body, b => sb.Append($"{Convert.ToString(b, 16).PadLeft(2,'0').ToUpper()} "));
+            if(!sb.ToString().StartsWith("19 20 00 00"))
+            {
+                DebugHelper.DebugLog($"接收到客户端 {session.Config.Ip}:{session.Config.Port} 的数据：\r\n{sb.ToString()}\r\n");
+            }
             //DebugHelper.DebugLog($"ASCII码：{Encoding.ASCII.GetString(requestInfo.Body)}");
         }
 
@@ -152,11 +155,11 @@ namespace TCP_WG
         /// <param name="e"></param>
         private void btnGen_Click(object sender, EventArgs e)
         {
-            var snStr = getSNStr(this.textSN.Text);
+            var snStr = Common.GetSNStr(this.textSN.Text);
             if(snStr.Count == 4)
             {
                 var cmd = string.Format(openCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2,'0'));
-                this.txtCmd.Text = cmd;
+                WriteCmd(cmd);
                 TrySend();
             }
             else
@@ -193,30 +196,15 @@ namespace TCP_WG
             }
         }
 
-        private List<string> getSNStr(string snTxt)
-        {
-            var sn = Convert.ToInt64(snTxt);
-            var sn16 = sn.ToString("X");
-            if (sn16.Length % 2 != 0)
-            {
-                sn16 = "0" + sn16;
-            }
-            List<string> list = new List<string>();
-            for (int i = 0; i < sn16.Length; i += 2)
-            {
-                list.Add(sn16.Substring(i,2));
-            }
-            return list;
-        }
+       
 
         private void btnOnline_Click(object sender, EventArgs e)
         {
-            var snStr = getSNStr(this.textSN.Text);
+            var snStr = Common.GetSNStr(this.textSN.Text);
             if (snStr.Count == 4)
             {
                 var cmd = string.Format(ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "03", "03");
-                this.txtCmd.Text = cmd;
-                TrySend();
+                WriteCmd(cmd);
             }
             else
             {
@@ -226,12 +214,11 @@ namespace TCP_WG
 
         private void btnOn_Click(object sender, EventArgs e)
         {
-            var snStr = getSNStr(this.textSN.Text);
+            var snStr = Common.GetSNStr(this.textSN.Text);
             if (snStr.Count == 4)
             {
                 var cmd = string.Format(ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "01", "03");
-                this.txtCmd.Text = cmd;
-                TrySend();
+                WriteCmd(cmd);
             }
             else
             {
@@ -241,17 +228,30 @@ namespace TCP_WG
 
         private void btnOff_Click(object sender, EventArgs e)
         {
-            var snStr = getSNStr(this.textSN.Text);
+            var snStr = Common.GetSNStr(this.textSN.Text);
             if (snStr.Count == 4)
             {
                 var cmd = string.Format(ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "02", "03");
-                this.txtCmd.Text = cmd;
-                TrySend();
+                WriteCmd(cmd);
             }
             else
             {
                 MessageBox.Show("SN数据长度错误", "错误");
             }
+        }
+
+        public void WriteCmd(string cmd)
+        {
+            this.txtCmd.Text = cmd;
+            TrySend();
+        }
+
+        private void btnMore_Click(object sender, EventArgs e)
+        {
+            FormMore formMore =  new FormMore();
+            formMore.WriteCmdEvent += WriteCmd;
+            formMore.SN = this.textSN.Text;
+            formMore.Show();
         }
     }
 }
