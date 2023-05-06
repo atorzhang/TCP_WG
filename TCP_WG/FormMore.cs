@@ -24,24 +24,10 @@ namespace TCP_WG
         {
             WriteCmdEvent?.Invoke(cmd);
         }
+        /// <summary>
+        /// 序列号
+        /// </summary>
         public string SN { get; set; }
-
-        /// <summary>
-        /// 时段设置发送的报文
-        /// </summary>
-        public const string BaseSDSZ = "17 88 00 00 {0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} 01 01 01 01 01 01 01 {13} {14} {15} {16} {17} {18} {19} {20} 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
-        /// <summary>
-        /// 时段查询
-        /// </summary>
-        public const string BaseSDQuery = "17 98 00 00 {0} {1} {2} {3} {4} 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
-        /// <summary>
-        /// 清空时段
-        /// </summary>
-        public const string BaseSDClear = "17 8A 00 00 {0} {1} {2} {3} 55 AA AA 55 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
-        /// <summary>
-        /// 权限添加或修改发送的报文
-        /// </summary>
-        public const string BaseQXTJ = "17 50 00 00 {0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} {13} {14} {15} {16} {16} {16} {16} 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
 
         /// <summary>
         /// 生成时段信息
@@ -50,7 +36,7 @@ namespace TCP_WG
         /// <param name="e"></param>
         private void btnSD_Click(object sender, EventArgs e)
         {
-            var snStr = Common.GetSNStr(this.SN);
+            var snStr = Common.GetCmdStr(this.SN);
             if (snStr.Count == 4)
             {
                 //开始的年月日
@@ -81,7 +67,7 @@ namespace TCP_WG
                 stime2 = txtB2.Text.Split(':');
                 etime2 = txtE2.Text.Split(':');
 
-                var cmd = string.Format(BaseSDSZ, snStr[3], snStr[2], snStr[1], snStr[0], this.txtIndex.Text.PadLeft(2,'0'), sYear1, sYear2, sDate[0], sDate[1], eYear1, eYear2, eDate[0], eDate[1], stime1[0], stime1[1], etime1[0], etime1[1], stime2[0], stime2[1], etime2[0], etime2[1]); 
+                var cmd = string.Format(ConstCtrl.BaseSDSZ, snStr[3], snStr[2], snStr[1], snStr[0], this.txtIndex.Text.PadLeft(2,'0'), sYear1, sYear2, sDate[0], sDate[1], eYear1, eYear2, eDate[0], eDate[1], stime1[0], stime1[1], etime1[0], etime1[1], stime2[0], stime2[1], etime2[0], etime2[1]); 
                 WriteCmd(cmd);
             }
             else
@@ -90,10 +76,15 @@ namespace TCP_WG
             }
         }
 
+        /// <summary>
+        /// 添加卡
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCard_Click(object sender, EventArgs e)
         {
-            var snStr = Common.GetSNStr(this.SN);
-            var cardStr = Common.GetSNStr(this.txtCard.Text);
+            var snStr = Common.GetCmdStr(this.SN);
+            var cardStr = Common.GetCmdStr(this.txtCard.Text);
             if (snStr.Count == 4)
             {
                 //开始的年月日
@@ -106,7 +97,7 @@ namespace TCP_WG
                 var eYear2 = dtEPickerQX.Value.Year.ToString().Substring(2);
                 var eDate = dtEPickerQX.Value.ToString("MM dd").Split(' ');
 
-                var cmd = string.Format(BaseQXTJ, snStr[3], snStr[2], snStr[1], snStr[0], cardStr[0], cardStr[1], cardStr[2], cardStr[3], sYear1, sYear2, sDate[0], sDate[1], eYear1, eYear2, eDate[0], eDate[1], this.txtQXindex.Text.PadLeft(2, '0'));
+                var cmd = string.Format(ConstCtrl.BaseQXTJ, snStr[3], snStr[2], snStr[1], snStr[0], cardStr[0], cardStr[1], cardStr[2], cardStr[3], sYear1, sYear2, sDate[0], sDate[1], eYear1, eYear2, eDate[0], eDate[1], this.txtQXindex.Text.PadLeft(2, '0'));
                 WriteCmd(cmd);
             }
             else
@@ -122,10 +113,10 @@ namespace TCP_WG
         /// <param name="e"></param>
         private void btnSDQuery_Click(object sender, EventArgs e)
         {
-            var snStr = Common.GetSNStr(this.SN);
+            var snStr = Common.GetCmdStr(this.SN);
             if (snStr.Count == 4)
             {
-                var cmd = string.Format(BaseSDQuery, snStr[3], snStr[2], snStr[1], snStr[0], this.txtQuerySD.Text.PadLeft(2, '0'));
+                var cmd = string.Format(ConstCtrl.BaseSDQuery, snStr[3], snStr[2], snStr[1], snStr[0], this.txtQuerySD.Text.PadLeft(2, '0'));
                 WriteCmd(cmd);
             }
             else
@@ -141,10 +132,151 @@ namespace TCP_WG
         /// <param name="e"></param>
         private void btnClearSD_Click(object sender, EventArgs e)
         {
-            var snStr = Common.GetSNStr(this.SN);
+            var snStr = Common.GetCmdStr(this.SN);
             if (snStr.Count == 4)
             {
-                var cmd = string.Format(BaseSDClear, snStr[3], snStr[2], snStr[1], snStr[0]);
+                var cmd = string.Format(ConstCtrl.BaseSDClear, snStr[3], snStr[2], snStr[1], snStr[0]);
+                WriteCmd(cmd);
+            }
+            else
+            {
+                MessageBox.Show("SN数据长度错误", "错误");
+            }
+        }
+
+        /// <summary>
+        /// 删除卡号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDelCard_Click(object sender, EventArgs e)
+        {
+            var snStr = Common.GetCmdStr(this.SN);
+            var cardStr = Common.GetCmdStr(this.txtCard.Text);
+            if (snStr.Count == 4 && cardStr.Count == 4)
+            {
+                var cmd = string.Format(ConstCtrl.BaseQXDel, snStr[3], snStr[2], snStr[1], snStr[0], cardStr[0], cardStr[1], cardStr[2], cardStr[3]);
+                WriteCmd(cmd);
+            }
+            else
+            {
+                MessageBox.Show("SN或者卡号数据长度错误", "错误");
+            }
+        }
+
+        /// <summary>
+        /// 删除所有卡号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDelCards_Click(object sender, EventArgs e)
+        {
+            var snStr = Common.GetCmdStr(this.SN);
+            if (snStr.Count == 4 )
+            {
+                var cmd = string.Format(ConstCtrl.BaseQXDelAll, snStr[3], snStr[2], snStr[1], snStr[0]);
+                WriteCmd(cmd);
+            }
+            else
+            {
+                MessageBox.Show("SN数据长度错误", "错误");
+            }
+        }
+
+        /// <summary>
+        /// 获取已读取过的记录索引号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLogIndexRead_Click(object sender, EventArgs e)
+        {
+            var snStr = Common.GetCmdStr(this.SN);
+            if (snStr.Count == 4)
+            {
+                var cmd = string.Format(ConstCtrl.BaseLogIndexGet, snStr[3], snStr[2], snStr[1], snStr[0]);
+                WriteCmd(cmd);
+            }
+            else
+            {
+                MessageBox.Show("SN数据长度错误", "错误");
+            }
+        }
+        /// <summary>
+        /// 设置已读取过的记录索引号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLogIndexSet_Click(object sender, EventArgs e)
+        {
+            var snStr = Common.GetCmdStr(this.SN);
+            var cardStr = Common.GetCmdStr(this.txtLogIndex.Text);
+            if (snStr.Count == 4)
+            {
+                var cmd = string.Format(ConstCtrl.BaseLogIndexSet, snStr[3], snStr[2], snStr[1], snStr[0], cardStr[3], cardStr[2], cardStr[1], cardStr[0]);
+                WriteCmd(cmd);
+            }
+            else
+            {
+                MessageBox.Show("SN数据长度错误", "错误");
+            }
+        }
+
+        /// <summary>
+        /// 读取日志，若记录号为0，读取第一条日志，若记录号为-1,读取最后一条日志
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLogGet_Click(object sender, EventArgs e)
+        {
+            var index = Convert.ToInt64(this.txtLogIndex.Text.Trim());
+            if(index < 0)
+            {
+                index = 0xffffffff;//4294967295;
+            }
+            var snStr = Common.GetCmdStr(this.SN);
+            if(index > 0 && index != 16777215)
+            {
+                var num = Convert.ToInt64(this.txtLogCount.Text);
+                for (var i = index - num; i <= index; i++)
+                {
+                    var indexStr = Common.GetCmdStr(i.ToString());
+                    if (snStr.Count == 4)
+                    {
+                        var cmd = string.Format(ConstCtrl.BaseLogRead, snStr[3], snStr[2], snStr[1], snStr[0], indexStr[3], indexStr[2], indexStr[1], indexStr[0]);
+                        WriteCmd(cmd);
+                    }
+                    else
+                    {
+                        MessageBox.Show("SN数据长度错误", "错误");
+                    }
+                }
+            }
+            else
+            {
+                var indexStr = Common.GetCmdStr(index.ToString());
+                if (snStr.Count == 4)
+                {
+                    var cmd = string.Format(ConstCtrl.BaseLogRead, snStr[3], snStr[2], snStr[1], snStr[0], indexStr[3], indexStr[2], indexStr[1], indexStr[0]);
+                    WriteCmd(cmd);
+                }
+                else
+                {
+                    MessageBox.Show("SN数据长度错误", "错误");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 查询控制器状态
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCtrlStatus_Click(object sender, EventArgs e)
+        {
+            var snStr = Common.GetCmdStr(this.SN);
+            if (snStr.Count == 4)
+            {
+                var cmd = string.Format(ConstCtrl.BaseCtrlStatus, snStr[3], snStr[2], snStr[1], snStr[0]);
                 WriteCmd(cmd);
             }
             else

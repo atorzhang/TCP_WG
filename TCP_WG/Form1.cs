@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,14 +17,6 @@ namespace TCP_WG
 {
     public partial class Form1 : Form
     {
-        /// <summary>
-        /// 远程开门(0x40)
-        /// </summary>
-        const string openCmd = "19 40 00 00 {0} {1} {2} {3} {4} 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
-        /// <summary>
-        /// 1.17设置门控制参数(0x80)
-        /// </summary>
-        const string ctrlCmd = "17 80 00 00 {0} {1} {2} {3} {4} {5} {6} 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
         public Form1()
         {
             InitializeComponent();
@@ -94,9 +87,67 @@ namespace TCP_WG
         {
             StringBuilder sb = new StringBuilder();
             Array.ForEach(requestInfo.Body, b => sb.Append($"{Convert.ToString(b, 16).PadLeft(2,'0').ToUpper()} "));
-            if(!sb.ToString().StartsWith("19 20 00 00"))
+            var str = sb.ToString().Trim();
+
+            List<string> list = new List<string>();
+            //粘包了，分包处理
+            var splits = str.Split(' ');
+            if (splits.Length / 64 > 1)
             {
-                DebugHelper.DebugLog($"接收到客户端 {session.Config.Ip}:{session.Config.Port} 的数据：\r\n{sb.ToString()}\r\n");
+                var sub = "";
+                for (int i = 0; i < splits.Length; i++)
+                {
+                    sub += splits[i] + " ";
+                    if ((i+1) % 64 == 0)
+                    {
+                        if (!sub.StartsWith("19 20 00 00"))
+                        {
+                            list.Add(sub.TrimEnd());
+                        }
+                        sub = "";
+                    }
+                }
+            }
+            else
+            {
+                if (!str.StartsWith("19 20 00 00"))
+                {
+                    list.Add(str);
+                } 
+            }
+            if(list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    if (item.StartsWith("17 B0 00 00"))
+                    {
+                        var cmdSplits = item.Split(' ');
+                        //分析开门日志
+                        //sn
+                        var sn = Convert.ToInt64(cmdSplits[7] + cmdSplits[6] + cmdSplits[5] + cmdSplits[4], 16);
+                        //刷卡记录的索引号
+                        var index = Convert.ToInt64(cmdSplits[11] + cmdSplits[10] + cmdSplits[9] + cmdSplits[8], 16);
+                        //记录类型,00无记录，01刷卡记录，02门磁,按钮, 设备启动, 远程开门记录，03报警记录
+                        var logType = cmdSplits[12];
+                        //有效性,00不允许，01通过
+                        var isPass = cmdSplits[13];
+                        //门号01-04
+                        var doorNO = cmdSplits[14];
+                        //进门/出门
+                        var inOut = cmdSplits[15];
+                        //卡号
+                        var cardNo = Convert.ToInt64(cmdSplits[19] + cmdSplits[18] + cmdSplits[17] + cmdSplits[16], 16);
+                        //刷卡时间
+                        var time = $"{cmdSplits[20]}{cmdSplits[21]}-{cmdSplits[22]}-{cmdSplits[23]} {cmdSplits[24]}:{cmdSplits[25]}:{cmdSplits[26]}";
+                        //记录原因代码
+                        var reson = cmdSplits[27];
+                        DebugHelper.DebugLog($"日志记录索引位={index}  卡号：{cardNo}  门号：{doorNO}  {(logType == "01" ? inOut == "01"?"进门":"出门":"")}  有效性：{isPass}  {time}  {Common.DicLogType[reson]}"  );
+                    }
+                    else
+                    {
+                        DebugHelper.DebugLog($"接收到客户端 {session.Config.Ip}:{session.Config.Port} 的数据：\r\n{item}\r\n");
+                    }
+                } 
             }
             //DebugHelper.DebugLog($"ASCII码：{Encoding.ASCII.GetString(requestInfo.Body)}");
         }
@@ -155,10 +206,10 @@ namespace TCP_WG
         /// <param name="e"></param>
         private void btnGen_Click(object sender, EventArgs e)
         {
-            var snStr = Common.GetSNStr(this.textSN.Text);
+            var snStr = Common.GetCmdStr(this.textSN.Text);
             if(snStr.Count == 4)
             {
-                var cmd = string.Format(openCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2,'0'));
+                var cmd = string.Format(ConstCtrl.openCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2,'0'));
                 WriteCmd(cmd);
                 TrySend();
             }
@@ -176,7 +227,7 @@ namespace TCP_WG
             }
         }
 
-        public void Send()
+        public void Send(int seleep = 50)
         {
             if (appSession != null)
             {
@@ -184,6 +235,7 @@ namespace TCP_WG
                 if (appSession.TrySend(bytes, 0, bytes.Length))
                 {
                     DebugHelper.DebugLog("发送成功：" + this.txtCmd.Text);
+                    //Thread.Sleep(seleep);
                 }
                 else
                 {
@@ -200,10 +252,10 @@ namespace TCP_WG
 
         private void btnOnline_Click(object sender, EventArgs e)
         {
-            var snStr = Common.GetSNStr(this.textSN.Text);
+            var snStr = Common.GetCmdStr(this.textSN.Text);
             if (snStr.Count == 4)
             {
-                var cmd = string.Format(ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "03", "03");
+                var cmd = string.Format(ConstCtrl.ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "03", "03");
                 WriteCmd(cmd);
             }
             else
@@ -214,10 +266,10 @@ namespace TCP_WG
 
         private void btnOn_Click(object sender, EventArgs e)
         {
-            var snStr = Common.GetSNStr(this.textSN.Text);
+            var snStr = Common.GetCmdStr(this.textSN.Text);
             if (snStr.Count == 4)
             {
-                var cmd = string.Format(ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "01", "03");
+                var cmd = string.Format(ConstCtrl.ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "01", "03");
                 WriteCmd(cmd);
             }
             else
@@ -228,10 +280,10 @@ namespace TCP_WG
 
         private void btnOff_Click(object sender, EventArgs e)
         {
-            var snStr = Common.GetSNStr(this.textSN.Text);
+            var snStr = Common.GetCmdStr(this.textSN.Text);
             if (snStr.Count == 4)
             {
-                var cmd = string.Format(ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "02", "03");
+                var cmd = string.Format(ConstCtrl.ctrlCmd, snStr[3], snStr[2], snStr[1], snStr[0], Convert.ToInt32(this.textDoor.Text).ToString("X").PadLeft(2, '0'), "02", "03");
                 WriteCmd(cmd);
             }
             else

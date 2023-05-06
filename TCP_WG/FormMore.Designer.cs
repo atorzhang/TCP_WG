@@ -48,6 +48,8 @@
             this.dtStartDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnDelCards = new System.Windows.Forms.Button();
+            this.btnDelCard = new System.Windows.Forms.Button();
             this.txtQXindex = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.btnCard = new System.Windows.Forms.Button();
@@ -58,15 +60,27 @@
             this.txtCard = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtQuerySD = new System.Windows.Forms.TextBox();
-            this.btnSDQuery = new System.Windows.Forms.Button();
             this.btnClearSD = new System.Windows.Forms.Button();
+            this.btnSDQuery = new System.Windows.Forms.Button();
+            this.txtQuerySD = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtLogCount = new System.Windows.Forms.TextBox();
+            this.btnLogIndexSet = new System.Windows.Forms.Button();
+            this.btnLogIndexRead = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtLogIndex = new System.Windows.Forms.TextBox();
+            this.btnLogGet = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.btnCtrlStatus = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -252,6 +266,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnDelCards);
+            this.groupBox4.Controls.Add(this.btnDelCard);
             this.groupBox4.Controls.Add(this.txtQXindex);
             this.groupBox4.Controls.Add(this.label11);
             this.groupBox4.Controls.Add(this.btnCard);
@@ -263,14 +279,34 @@
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Location = new System.Drawing.Point(5, 204);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(695, 54);
+            this.groupBox4.Size = new System.Drawing.Size(702, 78);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "权限添加或修改";
             // 
+            // btnDelCards
+            // 
+            this.btnDelCards.Location = new System.Drawing.Point(615, 49);
+            this.btnDelCards.Name = "btnDelCards";
+            this.btnDelCards.Size = new System.Drawing.Size(87, 23);
+            this.btnDelCards.TabIndex = 16;
+            this.btnDelCards.Text = "清除全部卡号";
+            this.btnDelCards.UseVisualStyleBackColor = true;
+            this.btnDelCards.Click += new System.EventHandler(this.btnDelCards_Click);
+            // 
+            // btnDelCard
+            // 
+            this.btnDelCard.Location = new System.Drawing.Point(626, 17);
+            this.btnDelCard.Name = "btnDelCard";
+            this.btnDelCard.Size = new System.Drawing.Size(75, 23);
+            this.btnDelCard.TabIndex = 15;
+            this.btnDelCard.Text = "删除卡号";
+            this.btnDelCard.UseVisualStyleBackColor = true;
+            this.btnDelCard.Click += new System.EventHandler(this.btnDelCard_Click);
+            // 
             // txtQXindex
             // 
-            this.txtQXindex.Location = new System.Drawing.Point(572, 19);
+            this.txtQXindex.Location = new System.Drawing.Point(521, 18);
             this.txtQXindex.Name = "txtQXindex";
             this.txtQXindex.Size = new System.Drawing.Size(21, 21);
             this.txtQXindex.TabIndex = 14;
@@ -279,15 +315,15 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(500, 24);
+            this.label11.Location = new System.Drawing.Point(462, 24);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(65, 12);
+            this.label11.Size = new System.Drawing.Size(53, 12);
             this.label11.TabIndex = 14;
-            this.label11.Text = "时段索引号";
+            this.label11.Text = "时段索引";
             // 
             // btnCard
             // 
-            this.btnCard.Location = new System.Drawing.Point(613, 19);
+            this.btnCard.Location = new System.Drawing.Point(545, 17);
             this.btnCard.Name = "btnCard";
             this.btnCard.Size = new System.Drawing.Size(75, 23);
             this.btnCard.TabIndex = 14;
@@ -297,7 +333,7 @@
             // 
             // dtEPickerQX
             // 
-            this.dtEPickerQX.Location = new System.Drawing.Point(248, 18);
+            this.dtEPickerQX.Location = new System.Drawing.Point(234, 18);
             this.dtEPickerQX.Name = "dtEPickerQX";
             this.dtEPickerQX.Size = new System.Drawing.Size(108, 21);
             this.dtEPickerQX.TabIndex = 14;
@@ -305,7 +341,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(189, 21);
+            this.label10.Location = new System.Drawing.Point(179, 24);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 12);
             this.label10.TabIndex = 14;
@@ -313,7 +349,7 @@
             // 
             // dtSPickerQX
             // 
-            this.dtSPickerQX.Location = new System.Drawing.Point(66, 18);
+            this.dtSPickerQX.Location = new System.Drawing.Point(66, 19);
             this.dtSPickerQX.Name = "dtSPickerQX";
             this.dtSPickerQX.Size = new System.Drawing.Size(108, 21);
             this.dtSPickerQX.TabIndex = 14;
@@ -321,7 +357,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 24);
+            this.label9.Location = new System.Drawing.Point(10, 24);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(53, 12);
             this.label9.TabIndex = 14;
@@ -329,7 +365,7 @@
             // 
             // txtCard
             // 
-            this.txtCard.Location = new System.Drawing.Point(406, 18);
+            this.txtCard.Location = new System.Drawing.Point(380, 18);
             this.txtCard.Name = "txtCard";
             this.txtCard.Size = new System.Drawing.Size(76, 21);
             this.txtCard.TabIndex = 9;
@@ -338,7 +374,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(371, 21);
+            this.label8.Location = new System.Drawing.Point(348, 22);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(29, 12);
             this.label8.TabIndex = 14;
@@ -357,22 +393,15 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "时段操作";
             // 
-            // label12
+            // btnClearSD
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(125, 33);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(53, 12);
-            this.label12.TabIndex = 9;
-            this.label12.Text = "时段索引";
-            // 
-            // txtQuerySD
-            // 
-            this.txtQuerySD.Location = new System.Drawing.Point(184, 28);
-            this.txtQuerySD.Name = "txtQuerySD";
-            this.txtQuerySD.Size = new System.Drawing.Size(76, 21);
-            this.txtQuerySD.TabIndex = 14;
-            this.txtQuerySD.Text = "2";
+            this.btnClearSD.Location = new System.Drawing.Point(14, 28);
+            this.btnClearSD.Name = "btnClearSD";
+            this.btnClearSD.Size = new System.Drawing.Size(75, 23);
+            this.btnClearSD.TabIndex = 15;
+            this.btnClearSD.Text = "全时段清除";
+            this.btnClearSD.UseVisualStyleBackColor = true;
+            this.btnClearSD.Click += new System.EventHandler(this.btnClearSD_Click);
             // 
             // btnSDQuery
             // 
@@ -384,21 +413,130 @@
             this.btnSDQuery.UseVisualStyleBackColor = true;
             this.btnSDQuery.Click += new System.EventHandler(this.btnSDQuery_Click);
             // 
-            // btnClearSD
+            // txtQuerySD
             // 
-            this.btnClearSD.Location = new System.Drawing.Point(14, 28);
-            this.btnClearSD.Name = "btnClearSD";
-            this.btnClearSD.Size = new System.Drawing.Size(75, 23);
-            this.btnClearSD.TabIndex = 15;
-            this.btnClearSD.Text = "全时段清除";
-            this.btnClearSD.UseVisualStyleBackColor = true;
-            this.btnClearSD.Click += new System.EventHandler(this.btnClearSD_Click);
+            this.txtQuerySD.Location = new System.Drawing.Point(184, 28);
+            this.txtQuerySD.Name = "txtQuerySD";
+            this.txtQuerySD.Size = new System.Drawing.Size(76, 21);
+            this.txtQuerySD.TabIndex = 14;
+            this.txtQuerySD.Text = "2";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(125, 33);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.TabIndex = 9;
+            this.label12.Text = "时段索引";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label14);
+            this.groupBox6.Controls.Add(this.txtLogCount);
+            this.groupBox6.Controls.Add(this.btnLogIndexSet);
+            this.groupBox6.Controls.Add(this.btnLogIndexRead);
+            this.groupBox6.Controls.Add(this.label13);
+            this.groupBox6.Controls.Add(this.txtLogIndex);
+            this.groupBox6.Controls.Add(this.btnLogGet);
+            this.groupBox6.Location = new System.Drawing.Point(5, 289);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(702, 50);
+            this.groupBox6.TabIndex = 3;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "日志读取";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(253, 25);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(53, 12);
+            this.label14.TabIndex = 21;
+            this.label14.Text = "读取数量";
+            // 
+            // txtLogCount
+            // 
+            this.txtLogCount.Location = new System.Drawing.Point(312, 20);
+            this.txtLogCount.Name = "txtLogCount";
+            this.txtLogCount.Size = new System.Drawing.Size(56, 21);
+            this.txtLogCount.TabIndex = 20;
+            this.txtLogCount.Text = "10";
+            // 
+            // btnLogIndexSet
+            // 
+            this.btnLogIndexSet.Location = new System.Drawing.Point(169, 20);
+            this.btnLogIndexSet.Name = "btnLogIndexSet";
+            this.btnLogIndexSet.Size = new System.Drawing.Size(69, 23);
+            this.btnLogIndexSet.TabIndex = 19;
+            this.btnLogIndexSet.Text = "设置已读";
+            this.btnLogIndexSet.UseVisualStyleBackColor = true;
+            this.btnLogIndexSet.Click += new System.EventHandler(this.btnLogIndexSet_Click);
+            // 
+            // btnLogIndexRead
+            // 
+            this.btnLogIndexRead.Location = new System.Drawing.Point(94, 20);
+            this.btnLogIndexRead.Name = "btnLogIndexRead";
+            this.btnLogIndexRead.Size = new System.Drawing.Size(69, 23);
+            this.btnLogIndexRead.TabIndex = 18;
+            this.btnLogIndexRead.Text = "读取设置";
+            this.btnLogIndexRead.UseVisualStyleBackColor = true;
+            this.btnLogIndexRead.Click += new System.EventHandler(this.btnLogIndexRead_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(5, 25);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 12);
+            this.label13.TabIndex = 17;
+            this.label13.Text = "开始索引";
+            // 
+            // txtLogIndex
+            // 
+            this.txtLogIndex.Location = new System.Drawing.Point(64, 20);
+            this.txtLogIndex.Name = "txtLogIndex";
+            this.txtLogIndex.Size = new System.Drawing.Size(24, 21);
+            this.txtLogIndex.TabIndex = 16;
+            this.txtLogIndex.Text = "0";
+            // 
+            // btnLogGet
+            // 
+            this.btnLogGet.Location = new System.Drawing.Point(374, 20);
+            this.btnLogGet.Name = "btnLogGet";
+            this.btnLogGet.Size = new System.Drawing.Size(87, 23);
+            this.btnLogGet.TabIndex = 17;
+            this.btnLogGet.Text = "读取日志";
+            this.btnLogGet.UseVisualStyleBackColor = true;
+            this.btnLogGet.Click += new System.EventHandler(this.btnLogGet_Click);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.btnCtrlStatus);
+            this.groupBox7.Location = new System.Drawing.Point(12, 345);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(695, 58);
+            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "查询";
+            // 
+            // btnCtrlStatus
+            // 
+            this.btnCtrlStatus.Location = new System.Drawing.Point(9, 20);
+            this.btnCtrlStatus.Name = "btnCtrlStatus";
+            this.btnCtrlStatus.Size = new System.Drawing.Size(100, 23);
+            this.btnCtrlStatus.TabIndex = 22;
+            this.btnCtrlStatus.Text = "查询控制器状态";
+            this.btnCtrlStatus.UseVisualStyleBackColor = true;
+            this.btnCtrlStatus.Click += new System.EventHandler(this.btnCtrlStatus_Click);
             // 
             // FormMore
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 473);
+            this.Controls.Add(this.groupBox7);
+            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox1);
@@ -414,6 +552,9 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -454,5 +595,17 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnSDQuery;
         private System.Windows.Forms.Button btnClearSD;
+        private System.Windows.Forms.Button btnDelCard;
+        private System.Windows.Forms.Button btnDelCards;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button btnLogGet;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtLogCount;
+        private System.Windows.Forms.Button btnLogIndexSet;
+        private System.Windows.Forms.Button btnLogIndexRead;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtLogIndex;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Button btnCtrlStatus;
     }
 }
