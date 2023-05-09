@@ -21,6 +21,7 @@ namespace TCP_WG
         {
             InitializeComponent();
             DebugHelper.LogInfoHand += LogToText;
+            //this.textSN.Text = "";//旧的222466751
         }
         public void LogToText(string msg)
         {

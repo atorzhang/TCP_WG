@@ -38,6 +38,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnMore = new System.Windows.Forms.Button();
             this.btnOnline = new System.Windows.Forms.Button();
             this.btnOff = new System.Windows.Forms.Button();
             this.btnOn = new System.Windows.Forms.Button();
@@ -46,7 +47,6 @@
             this.btnGen = new System.Windows.Forms.Button();
             this.textSN = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.btnMore = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -151,6 +151,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "指令生成";
             // 
+            // btnMore
+            // 
+            this.btnMore.Location = new System.Drawing.Point(476, 21);
+            this.btnMore.Name = "btnMore";
+            this.btnMore.Size = new System.Drawing.Size(25, 23);
+            this.btnMore.TabIndex = 19;
+            this.btnMore.Text = "...";
+            this.btnMore.UseVisualStyleBackColor = true;
+            this.btnMore.Click += new System.EventHandler(this.btnMore_Click);
+            // 
             // btnOnline
             // 
             this.btnOnline.BackColor = System.Drawing.Color.SteelBlue;
@@ -220,7 +230,7 @@
             this.textSN.Name = "textSN";
             this.textSN.Size = new System.Drawing.Size(71, 21);
             this.textSN.TabIndex = 12;
-            this.textSN.Text = "222466751";
+            this.textSN.Text = "133146962";
             // 
             // checkBox1
             // 
@@ -233,16 +243,6 @@
             this.checkBox1.TabIndex = 13;
             this.checkBox1.Text = "自动发送";
             this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // btnMore
-            // 
-            this.btnMore.Location = new System.Drawing.Point(476, 21);
-            this.btnMore.Name = "btnMore";
-            this.btnMore.Size = new System.Drawing.Size(25, 23);
-            this.btnMore.TabIndex = 19;
-            this.btnMore.Text = "...";
-            this.btnMore.UseVisualStyleBackColor = true;
-            this.btnMore.Click += new System.EventHandler(this.btnMore_Click);
             // 
             // Form1
             // 
