@@ -24,6 +24,17 @@ namespace TCP_WG
             return list;
         }
 
+        public static List<string> GetCardStr(long card)
+        {
+            var cardBytes = BitConverter.GetBytes(card);
+            List<string> nums = new List<string>();
+            for (int i = 0; i < 4; i++)
+            {
+                nums.Add(cardBytes[i].ToString("X").PadLeft(2,'0'));
+            }
+            return nums;
+        }
+
         public static Dictionary<string,string> DicLogType = new Dictionary<string, string>()
         {
             { "00","无记录"},

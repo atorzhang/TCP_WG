@@ -84,7 +84,7 @@ namespace TCP_WG
         private void btnCard_Click(object sender, EventArgs e)
         {
             var snStr = Common.GetCmdStr(this.SN);
-            var cardStr = Common.GetCmdStr(this.txtCard.Text);
+            var cardStr = Common.GetCardStr(Convert.ToInt64(this.txtCard.Text));
             if (snStr.Count == 4)
             {
                 //开始的年月日

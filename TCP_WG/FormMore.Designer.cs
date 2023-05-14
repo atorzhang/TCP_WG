@@ -369,7 +369,7 @@
             this.txtCard.Name = "txtCard";
             this.txtCard.Size = new System.Drawing.Size(76, 21);
             this.txtCard.TabIndex = 9;
-            this.txtCard.Text = "1614493185";
+            this.txtCard.Text = "20331360";
             // 
             // label8
             // 
